@@ -1,0 +1,14 @@
+{
+    "user_1": {
+      "distracted": {
+        "preferred_style": "Motivational",
+        "example_response": "You're doing great! Want to try again?",
+        "feedback_count": 3
+      },
+      "confused": {
+        "preferred_style": "Step-by-step explanation",
+        "example_response": "Let's go through it slowly — no rush.",
+        "feedback_count": 5
+      }
+    }
+  }
