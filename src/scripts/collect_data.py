@@ -3,7 +3,7 @@ import numpy as np
 import csv
 import os
 from collections import defaultdict
-from state_detection import extract_features
+from utils.state_detection import extract_features
 
 # Initialize webcam (using AVFoundation backend for macOS)
 cap = cv2.VideoCapture(0, cv2.CAP_AVFOUNDATION)
@@ -28,7 +28,7 @@ print("Press Q to quit.\n")
 while True:
     ret, frame = cap.read()
     if not ret or frame is None:
-        print("❌ Frame not captured.")
+        print(" Frame not captured.")
         break
 
     # Display label counters on frame
@@ -62,13 +62,13 @@ while True:
             features_list.append(features)
             labels_list.append(label)
             label_counts[label] += 1
-            print(f"✅ Captured: {label} ({label_counts[label]}/{target_per_class})")
+            print(f" Captured: {label} ({label_counts[label]}/{target_per_class})")
         else:
-            print("⚠️ Invalid features. Adjust pose or lighting.")
+            print(" Invalid features. Adjust pose or lighting.")
 
     # Stop if all classes have enough samples
     if all(label_counts[l] >= target_per_class for l in class_labels.values()):
-        print("\n✅ All class samples collected.")
+        print("\n All class samples collected.")
         break
 
 # Cleanup
@@ -101,4 +101,4 @@ with open(csv_path, "w", newline="") as f:
     for feats, label in zip(features_list, labels_list):
         writer.writerow(list(feats) + [label])
 
-print(f"\n✅ Saved dataset to: {dataset_dir}")
+print(f"\n Saved dataset to: {dataset_dir}")

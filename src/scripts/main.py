@@ -1,10 +1,10 @@
 import cv2
 import joblib
 import time
-from state_detection import extract_features
-from memory import load_preference, update_preference
-from response_generator import generate_response
-from conversation_saving import log_conversation
+from utils.state_detection import extract_features
+from utils.memory import load_preference, update_preference
+from utils.response_generator import generate_response
+from utils.conversation_saving import log_conversation
 
 # Load trained SVM model for cognitive state prediction
 model = joblib.load("svm_cognitive_state.joblib")
@@ -27,7 +27,7 @@ def response_did_not_work(before, after):
 
 # Initial assistant greeting (neutral state)
 initial_response = generate_response(
-    state="neutral",
+    state="attentive",
     style="empathetic",
     example="Hello, how are you feeling today?",
     user_input="Please greet the user and ask if they would like to chat or do something together."
