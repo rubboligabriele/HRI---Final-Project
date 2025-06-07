@@ -28,7 +28,7 @@ label_names = encoder.classes_
 # Load final trained model
 model = joblib.load("svm_cognitive_state.joblib")
 
-# ------------------ 1. PCA + Decision Boundary ------------------
+# PCA + Decision Boundary
 pca = PCA(n_components=2)
 X_pca = pca.fit_transform(X)
 svm_pca = SVC(kernel="rbf")
@@ -63,11 +63,11 @@ plt.legend()
 plt.tight_layout()
 plt.show()
 
-# ------------------ 2. Support Vector Info ------------------
-print(f"\n🧷 Number of support vectors (final model): {len(model.support_)}")
+# Support Vector Info
+print(f"\n Number of support vectors (final model): {len(model.support_)}")
 print("Support vector indices:", model.support_)
 
-# ------------------ 3. Permutation Feature Importance ------------------
+# Permutation Feature Importance
 # Train/test split for permutation importance
 X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=0.2, random_state=42)
 perm = permutation_importance(model, X_test, y_test, n_repeats=30, random_state=42, n_jobs=-1)

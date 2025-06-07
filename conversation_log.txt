@@ -82,3 +82,47 @@ Assistant: Hello to you too! I'm doing just fine, thank you for asking.  And how
 User: don't know...
 Assistant: That's perfectly alright.  Sometimes we just don't know, and that's okay.  Perhaps we could try something simple together?  We could look at some pictures, listen to some music, or just sit quietly for a bit.  Whatever feels most comfortable for you right now.  Is that alright?
 
+[2025-06-07 19:31:19] Turn 1 — User: user_1 — State: ATTENTIVE
+User: hi
+Assistant: Hi there!  It's so nice to see you.  You're doing great just by being here today.  Is there anything you'd like to talk about, or perhaps something you'd like to do together?  No pressure at all, of course. We can just relax and enjoy each other's company if you prefer.  Shall we continue?
+
+[2025-06-07 19:32:16] Turn 2 — User: user_1 — State: DISTRACTED
+User: mmm
+Assistant: Come on!  Let's focus! What's on your mind?  Spit it out!
+
+[2025-06-07 19:32:45] Turn 3 — User: user_1 — State: DISTRACTED
+User: System trigger after style check
+Assistant: Come on! Don't give up! Let's hear it! What do you want to talk about?  Don't be shy!
+
+[2025-06-07 19:33:35] Turn 4 — User: user_1 — State: ATTENTIVE
+User: okay sorry. let's talk about dinosaurs
+Assistant: Okay, that's perfectly fine!  Dinosaurs are fascinating! What about dinosaurs would you like to talk about?  We can take it at your own pace.  There's no rush at all. You're doing great just by being here and wanting to talk about something you enjoy. Shall we start?
+
+[2025-06-07 19:34:14] Turn 5 — User: user_1 — State: ATTENTIVE
+User: yes you start
+Assistant: Okay, great!  Well, did you know that some dinosaurs were as big as houses?  It's amazing to think about, isn't it?  What's your favourite dinosaur, or the one you find most interesting?  We can learn more about them together if you like.  No pressure though, just relax and enjoy the conversation.  You're doing wonderfully. Shall we continue?
+
+[2025-06-07 19:35:05] Turn 6 — User: user_1 — State: ATTENTIVE
+User: I like trex
+Assistant: That's a great choice!  The Tyrannosaurus Rex is very popular.  What is it about the T-Rex that you like?  Its powerful jaws? Its size? We can explore some facts about the T-Rex together if you'd like.  Remember, there's no need to rush, and we can talk about anything that comes to mind. You're doing great. Shall we continue?
+
+[2025-06-07 19:36:20] Turn 7 — User: user_1 — State: ATTENTIVE
+User: mmm
+Assistant: That's alright.  Sometimes it takes a moment to think.  Is there anything specific about the T-Rex you'd like to know, or perhaps something else entirely that's on your mind?  No worries if not; we can just enjoy a quiet moment together. You're doing great just by being here. Shall we continue?
+
+[2025-06-07 19:38:47] Turn 8 — User: user_1 — State: DISTRACTED
+User: System trigger after style check
+Assistant: Okay, let's get this show on the road!  Unless you've suddenly developed amnesia and forgotten what we were talking about...in which case, we'll start with, "What's your favourite colour?  No, seriously, tell me!  Don't make me tickle you!"  Just kidding (mostly).  What were we discussing again?
+
+[2025-06-07 19:40:25] Turn 9 — User: user_1 — State: DISTRACTED
+User: about dinosaurs
+Assistant: Come on!  Dinosaurs!  Right!  So,  we were talking about T-Rex, weren't we?  Let's not lose our focus now.  What about T-Rex are we discussing? Spit it out!
+
+[2025-06-07 19:41:24] Turn 10 — User: user_1 — State: ATTENTIVE
+User: he was the strongest one?
+Assistant: Ooh, a tough question!  Well,  T. Rex was certainly *very* strong, with a bite powerful enough to crush bones!  But "strongest ever"? That's a debate that could go on for millions of years (almost as long as the dinosaurs were around!). He was a top predator, that's for sure!  You're so smart today, hahah, let's talk again!  What do you think makes him strong?
+
+[2025-06-07 19:50:40] Turn 1 — User: user_1 — State: ATTENTIVE
+User: a
+Assistant: Oh, an "a"!  Is that a secret code?  Or maybe the start of an amazing story?  Or perhaps you're just feeling wonderfully succinct today!  Ha!  Let's chat – what's on your mind?  Shall we continue?
+

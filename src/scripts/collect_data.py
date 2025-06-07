@@ -9,7 +9,7 @@ from utils.state_detection import extract_features
 cap = cv2.VideoCapture(0, cv2.CAP_AVFOUNDATION)
 width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
 height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
-print(f"📷 Webcam resolution: {int(width)}x{int(height)}")
+print(f" Webcam resolution: {int(width)}x{int(height)}")
 
 # Initialize storage
 features_list = []

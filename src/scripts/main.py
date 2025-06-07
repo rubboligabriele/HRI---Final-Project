@@ -80,7 +80,7 @@ while True:
     turn_id += 1
 
     # Countdown before observing user's reaction
-    for i in range(3, 0, -1):
+    for i in range(10, 0, -1):
         print(f"⏳ Observing your reaction in {i}...")
         time.sleep(1)
 
