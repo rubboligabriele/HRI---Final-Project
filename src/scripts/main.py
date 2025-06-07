@@ -1,10 +1,10 @@
 import cv2
 import joblib
 import time
-from utils.state_detection import extract_features
-from utils.memory import load_preference, update_preference
-from utils.response_generator import generate_response
-from utils.conversation_saving import log_conversation
+from src.utils.state_detection import extract_features
+from src.utils.memory import load_preference, update_preference
+from src.utils.response_generator import generate_response
+from src.utils.conversation_saving import log_conversation
 
 # Load trained SVM model for cognitive state prediction
 model = joblib.load("svm_cognitive_state.joblib")
@@ -23,7 +23,14 @@ def response_did_not_work(before, after):
     """
     Heuristic to detect if the response failed to improve or maintain the user's state.
     """
-    return before == after or (before == "attentive" and after in ["confused", "frustrated"])
+    if before == "attentive" and after in ["confused", "distracted"]:
+        return True
+    elif before != after and after in ["confused", "distracted"]:
+        return True
+    elif before == after and before in ["confused", "distracted"]:
+        return True
+    else:
+        return False
 
 # Initial assistant greeting (neutral state)
 initial_response = generate_response(
@@ -35,6 +42,10 @@ initial_response = generate_response(
 print(f"\nAssistant: {initial_response}")
 
 while True:
+    for i in range(3, 0, -1):
+        print(f"⏳ Observing your reaction in {i}...")
+        time.sleep(1)
+    
     ret, frame = cap.read()
     if not ret:
         break
@@ -55,8 +66,6 @@ while True:
     # Load the user's style preferences for the current state
     style, example = load_preference(user_id, state)
 
-    # Display the webcam feed and detected state
-    cv2.imshow("Webcam", frame)
     print(f"\nDetected state: [{state.upper()}] (style: {style})")
 
     # Wait for user input
@@ -70,23 +79,37 @@ while True:
     log_conversation(state, user_input, response, user_id, turn_id)
     turn_id += 1
 
-    # Pause and capture a post-response frame to observe reaction
-    time.sleep(1.5)
+    # Countdown before observing user's reaction
+    for i in range(3, 0, -1):
+        print(f"⏳ Observing your reaction in {i}...")
+        time.sleep(1)
+
     ret, post_frame = cap.read()
     post_features = extract_features(post_frame)
     post_state = model.predict([post_features])[0]
 
+    print(f"📸 Observed post-response state: [{post_state.upper()}]")
+
     # If the state got worse or did not improve, offer to change style
     if response_did_not_work(state, post_state):
-        print(f"\n🤖 Assistant: You still seem {post_state}.")
+        print(f"\n🤖 Assistant: You seem {post_state}.")
         print("Would you like to try a different explanation style?")
         confirm = input("Change style? (yes/no): ").strip().lower()
 
         if confirm == "yes":
-            new_style = input("Enter a new preferred style (e.g., calm, motivational, step-by-step): ").strip()
+            new_style = input(f"Enter a new preferred style for when you are {state} (e.g., calm, motivational, step-by-step): ").strip()
             new_example = input("Give an example response in that style: ").strip()
             update_preference(user_id, state, new_style, new_example)
             print("Preferences updated.")
+        else:
+            new_style, new_example = style, example
+
+        response = generate_response(post_state, new_style, new_example, user_input="Continue the conversation.")
+        print(f"Assistant: {response}")
+        log_conversation(post_state, "System trigger after style check", response, user_id, turn_id)
+        turn_id += 1
+
+        continue
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
