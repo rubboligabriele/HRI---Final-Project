@@ -34,7 +34,11 @@ def generate_response(state, style, example, user_input=None):
         f"Example response: \"{example}\"."
     )
     if user_input:
-        user_prompt += f"\nThey just said: \"{user_input}\""
+        user_prompt += (
+            f"\nThey just said: \"{user_input}\""
+            "\nIf the user's message suggests that they are confused, frustrated, or dissatisfied with the assistant's communication style, "
+            "then append [STYLE_CHANGE_REQUESTED] at the end of your response."
+        )
 
     # Add to conversation
     conversation_history.append({ "role": "user", "parts": [user_prompt] })

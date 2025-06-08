@@ -73,6 +73,11 @@ while True:
 
     # Generate assistant response adapted to user state and preference
     response = generate_response(state, style, example, user_input=user_input)
+
+    # Check if the response indicates a style change is requested
+    style_requested = "[STYLE_CHANGE_REQUESTED]" in response
+    response = response.replace("[STYLE_CHANGE_REQUESTED]", "")
+
     print(f"Assistant: {response}")
 
     # Log the interaction
@@ -91,7 +96,7 @@ while True:
     print(f"📸 Observed post-response state: [{post_state.upper()}]")
 
     # If the state got worse or did not improve, offer to change style
-    if response_did_not_work(state, post_state):
+    if response_did_not_work(state, post_state) or style_requested:
         print(f"\n🤖 Assistant: You seem {post_state}.")
         print("Would you like to try a different explanation style?")
         confirm = input("Change style? (yes/no): ").strip().lower()
