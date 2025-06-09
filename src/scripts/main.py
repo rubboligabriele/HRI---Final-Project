@@ -43,69 +43,80 @@ print(f"\nAssistant: {initial_response}")
 
 while True:
     for i in range(3, 0, -1):
-        print(f"⏳ Observing your reaction in {i}...")
+        print(f" Observing your reaction in {i}...")
         time.sleep(1)
-    
+
     ret, frame = cap.read()
     if not ret:
         break
 
     # Extract features from current frame
-    features = extract_features(frame)
+    features, feature_names = extract_features(frame)
+    try:
+        state = model.predict([features])[0]
+    except ValueError as e:
+        print("\n Prediction failed due to shape mismatch.")
+        print(f"Expected {model.n_features_in_} features but got {len(features)}.\n")
+        print(" Feature breakdown:")
+        for name, value in zip(feature_names, features):
+            print(f" - {name}: {value:.4f}")
+        raise e
 
-    # If no valid features, skip this frame
-    if features is None or all(f == 0 for f in features):
-        cv2.imshow("Webcam", frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-        continue
-
-    # Predict user's cognitive state
-    state = model.predict([features])[0]
-
-    # Load the user's style preferences for the current state
     style, example = load_preference(user_id, state)
 
     print(f"\nDetected state: [{state.upper()}] (style: {style})")
 
-    # Wait for user input
     user_input = input("You: ").strip()
 
-    # Generate assistant response adapted to user state and preference
     response = generate_response(state, style, example, user_input=user_input)
 
-    # Check if the response indicates a style change is requested
     style_requested = "[STYLE_CHANGE_REQUESTED]" in response
     response = response.replace("[STYLE_CHANGE_REQUESTED]", "")
 
     print(f"Assistant: {response}")
 
-    # Log the interaction
     log_conversation(state, user_input, response, user_id, turn_id)
     turn_id += 1
 
-    # Countdown before observing user's reaction
-    for i in range(10, 0, -1):
-        print(f"⏳ Observing your reaction in {i}...")
-        time.sleep(1)
+    if not style_requested:
+        for i in range(10, 0, -1):
+            print(f" Observing your reaction in {i}...")
+            time.sleep(1)
 
-    ret, post_frame = cap.read()
-    post_features = extract_features(post_frame)
-    post_state = model.predict([post_features])[0]
+        ret, post_frame = cap.read()
+        post_features, feature_names = extract_features(post_frame)
+        try:
+            post_state = model.predict([post_features])[0]
+        except ValueError as e:
+            print("\n Post-response prediction failed.")
+            print(f"Expected {model.n_features_in_} features but got {len(post_features)}.\n")
+            print(" Feature breakdown:")
+            for name, value in zip(feature_names, post_features):
+                print(f" - {name}: {value:.4f}")
+            raise e
 
-    print(f"📸 Observed post-response state: [{post_state.upper()}]")
+        print(f" Observed post-response state: [{post_state.upper()}]")
 
-    # If the state got worse or did not improve, offer to change style
     if response_did_not_work(state, post_state) or style_requested:
-        print(f"\n🤖 Assistant: You seem {post_state}.")
-        print("Would you like to try a different explanation style?")
+        assistant_question = f"You seem {post_state}. Would you like to try a different explanation style for when you are {state}?"
+        print(f"\n Assistant: {assistant_question}")
+        log_conversation(post_state, "System trigger", assistant_question, user_id, turn_id)
+        turn_id += 1
+
         confirm = input("Change style? (yes/no): ").strip().lower()
+        log_conversation(post_state, "User", f"Change style? → {confirm}", user_id, turn_id)
+        turn_id += 1
 
         if confirm == "yes":
             new_style = input(f"Enter a new preferred style for when you are {state} (e.g., calm, motivational, step-by-step): ").strip()
             new_example = input("Give an example response in that style: ").strip()
             update_preference(user_id, state, new_style, new_example)
             print("Preferences updated.")
+
+            style_change_input = f"[User updated preferred style to '{new_style}' for state '{state}']"
+            assistant_ack = "Preferences updated and stored. I'll use this style from now on when you seem like that."
+            log_conversation(state, style_change_input, assistant_ack, user_id, turn_id)
+            turn_id += 1
         else:
             new_style, new_example = style, example
 
@@ -119,6 +130,5 @@ while True:
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-# Release resources
 cap.release()
 cv2.destroyAllWindows()

@@ -1,19 +1,16 @@
 {
   "user_1": {
     "distracted": {
-      "preferred_style": "aggressive",
-      "example_response": "come on! don't give up!",
-      "feedback_count": 0
+      "preferred_style": "be more gentle",
+      "example_response": "hey! if you want to continue later no problem!"
     },
     "confused": {
-      "preferred_style": "Step-by-step explanation",
-      "example_response": "Let's go through it slowly, no rush.",
-      "feedback_count": 5
+      "preferred_style": "supportive",
+      "example_response": "take a breath and don't worry, let's go step by step with no pressure"
     },
     "attentive": {
       "preferred_style": "funny",
-      "example_response": "you are so smart today hahah, let's talk again",
-      "feedback_count": 0
+      "example_response": "make some jokes, make me laugh"
     }
   }
 }

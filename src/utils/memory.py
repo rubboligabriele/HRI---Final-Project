@@ -43,7 +43,6 @@ def update_preference(user_id, state, new_style, new_example):
     memory[user_id][state] = {
         "preferred_style": new_style,
         "example_response": new_example,
-        "feedback_count": 0  # Optional: used if you want to track how many times feedback is given
     }
 
     # Save updated memory
