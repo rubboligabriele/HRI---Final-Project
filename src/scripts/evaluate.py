@@ -8,6 +8,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 from matplotlib.colors import ListedColormap
 import joblib
+from sklearn.metrics import confusion_matrix
 
 # Load dataset
 X = np.load("dataset_1/labeled_features.npy")
@@ -83,3 +84,16 @@ plt.title("Permutation Feature Importance (SVM)")
 plt.xlabel("Mean Importance")
 plt.tight_layout()
 plt.show()
+
+# === Confusion Matrix ===
+y_pred = model.predict(X_test)
+cm = confusion_matrix(y_test, y_pred, labels=label_names)
+
+plt.figure(figsize=(6, 5))
+sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=label_names, yticklabels=label_names)
+plt.title("Confusion Matrix (SVM Classifier)")
+plt.xlabel("Predicted Label")
+plt.ylabel("True Label")
+plt.tight_layout()
+plt.savefig("svm_confusion_matrix.pdf")
+plt.close()

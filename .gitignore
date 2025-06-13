@@ -195,3 +195,5 @@ cython_debug/
 
 # Folders
 /dataset/
+
+*.pdf
